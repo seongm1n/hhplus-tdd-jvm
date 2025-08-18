@@ -39,6 +39,21 @@ class PointServiceTest {
     }
 
     @Test
+    @DisplayName("사용자 포인트 조회 - 존재하지 않는 사용자도 0포인트로 조회된다")
+    void getUserPoint_WhenNonExistentUser_ShouldReturnZeroPoint() {
+        // given
+        long nonExistentUserId = 999999L;
+
+        // when
+        UserPoint userPoint = pointService.getUserPoint(nonExistentUserId);
+
+        // then
+        assertThat(userPoint.id()).isEqualTo(nonExistentUserId);
+        assertThat(userPoint.point()).isEqualTo(0L);
+        assertThat(userPoint.updateMillis()).isGreaterThan(0L);
+    }
+
+    @Test
     @DisplayName("포인트 충전 - 정상적으로 포인트가 충전된다")
     void chargePoint_WhenValidAmount_ShouldChargeSuccessfully() {
         // given
